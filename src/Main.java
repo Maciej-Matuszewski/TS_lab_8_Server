@@ -9,8 +9,6 @@ public class Main{
     ObjectOutputStream out2;
     ObjectInputStream in;
     ObjectInputStream in2;
-    
-    String message, message2;
 
     void run()
     {
@@ -29,10 +27,10 @@ public class Main{
             in = new ObjectInputStream(client.getInputStream());
             in2 = new ObjectInputStream(client2.getInputStream());
             
-            Thread t1 = new Thread(new Monitor(out, in2, client2.getInetAddress().getHostName()));
+            Thread t1 = new Thread(new Monitor(out, out2, in2, client2.getInetAddress().getHostName()));
     		t1.start();
             
-    		Thread t2 = new Thread(new Monitor(out2, in, client.getInetAddress().getHostName()));
+    		Thread t2 = new Thread(new Monitor(out2, out, in, client.getInetAddress().getHostName()));
     		t2.start();
     		
         }

@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import javax.swing.JOptionPane;
+
 public class Monitor implements Runnable{
 
     ObjectOutputStream out;
@@ -26,14 +28,16 @@ public class Monitor implements Runnable{
 			try {
 				lastMessage = message;
 				message = (String)in.readObject();
-				
+				JOptionPane.showMessageDialog(null, client+"->Server : "+message);
 				System.out.println(this.client + ": " +message);
 				
 				switch (message) {
 				case "INVITE":
+					sendMessage(message, out);
+					sendMessage(client, out);
 					sendMessage("100 Trying", cOut);
 					sendMessage("180 Ringing", cOut);
-					sendMessage("200 OK", cOut);
+					//sendMessage("200 OK", cOut);
 					break;
 
 				case "100 Trying":
@@ -56,7 +60,7 @@ public class Monitor implements Runnable{
 	void sendMessage(String msg, ObjectOutputStream out)
     {
         try{
-        	//System.out.println("Server -> " + client + ": "+msg);
+        	System.out.println("Server -> " + client + ": "+msg);
             out.writeObject(msg);
             out.flush();
         }

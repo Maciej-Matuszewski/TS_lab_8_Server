@@ -1,5 +1,7 @@
-import java.io.*;
+s import java.io.*;
 import java.net.*;
+
+import javax.swing.JOptionPane;
 public class Main{
 	
     ServerSocket server;
@@ -14,11 +16,11 @@ public class Main{
     {
         try{
             server = new ServerSocket(9666, 10);
-            System.out.println("Serwer: Start");
+            JOptionPane.showMessageDialog(null,"Serwer: Start");
             client = server.accept();
-            System.out.println("Connection 1 received from " + client.getInetAddress().getHostName());
+            JOptionPane.showMessageDialog(null,"Serwer: Connection 1 received from " + client.getInetAddress().getHostName());
             client2 = server.accept();
-            System.out.println("Connection 2 received from " + client2.getInetAddress().getHostName());
+            JOptionPane.showMessageDialog(null,"Serwer: Connection 2 received from " + client2.getInetAddress().getHostName());
             
             out = new ObjectOutputStream(client.getOutputStream());
             out2 = new ObjectOutputStream(client2.getOutputStream());
@@ -40,18 +42,7 @@ public class Main{
         finally{
         }
     }
-    
-    void sendMessage(String msg, ObjectOutputStream out)
-    {
-        try{
-            out.writeObject(msg);
-            out.flush();
-        }
-        catch(IOException ioException){
-            ioException.printStackTrace();
-        }
-    }
-    
+
     public static void main(String args[])
     {
         Main server = new Main();
